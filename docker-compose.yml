@@ -29,3 +29,6 @@ services:
 volumes:
   postgres_data:
 
+environment:
+  - ALLOWED_HOSTS=51.21.170.236,localhost,127.0.0.1
+
