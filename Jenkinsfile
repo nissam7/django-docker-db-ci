@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -17,7 +18,10 @@ pipeline {
 
         stage('Run Containers') {
             steps {
-                sh 'docker-compose up -d'
+                sh '''
+                docker-compose down || true
+                docker-compose up -d
+                '''
             }
         }
 
@@ -25,6 +29,15 @@ pipeline {
             steps {
                 sh 'docker ps'
             }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Deployment completed successfully"
+        }
+        failure {
+            echo "❌ Deployment failed"
         }
     }
 }
