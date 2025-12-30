@@ -1,21 +1,6 @@
-version: '3.9'
+version: "3.8"
 
 services:
-  web:
-    build: .
-    container_name: django-web
-    ports:
-      - "8000:8000"
-    environment:
-      DB_ENGINE: postgresql
-      DB_NAME: django_db
-      DB_USERNAME: django_user
-      DB_PASS: django_pass
-      DB_HOST: db
-      DB_PORT: 5432
-    depends_on:
-      - db
-
   db:
     image: postgres:15
     container_name: django-db
@@ -25,10 +10,22 @@ services:
       POSTGRES_PASSWORD: django_pass
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    container_name: django-web
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - ALLOWED_HOSTS=51.21.170.236,localhost,127.0.0.1
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
-
-environment:
-  - ALLOWED_HOSTS=51.21.170.236,localhost,127.0.0.1
 
