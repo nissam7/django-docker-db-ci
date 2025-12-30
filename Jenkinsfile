@@ -2,22 +2,28 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                sh 'docker-compose down || true'
-                sh 'docker-compose build'
+                git branch: 'main',
+                    url: 'https://github.com/nissam7/django-docker-db-ci.git'
             }
         }
 
-        stage('Deploy') {
+        stage('Build Docker Images') {
             steps {
-                sh 'docker-compose up -d'
+                sh 'docker compose build'
             }
         }
 
-        stage('Database Migration') {
+        stage('Run Containers') {
             steps {
-                sh 'docker exec django-web python manage.py migrate'
+                sh 'docker compose up -d'
+            }
+        }
+
+        stage('Verify Containers') {
+            steps {
+                sh 'docker ps'
             }
         }
     }
