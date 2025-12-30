@@ -16,20 +16,19 @@ pipeline {
             }
         }
 
-        stage('Clean Old Containers') {
+        stage('Force Clean Old Containers') {
             steps {
                 sh '''
+                docker-compose down --remove-orphans || true
                 docker rm -f django-db || true
-                docker rm -f django-docker-db-ci_web || true
+                docker rm -f django-web || true
                 '''
             }
         }
 
         stage('Run Containers') {
             steps {
-                sh '''
-                docker-compose up -d
-                '''
+                sh 'docker-compose up -d'
             }
         }
 
