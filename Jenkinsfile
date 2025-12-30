@@ -16,10 +16,18 @@ pipeline {
             }
         }
 
+        stage('Clean Old Containers') {
+            steps {
+                sh '''
+                docker rm -f django-db || true
+                docker rm -f django-docker-db-ci_web || true
+                '''
+            }
+        }
+
         stage('Run Containers') {
             steps {
                 sh '''
-                docker-compose down || true
                 docker-compose up -d
                 '''
             }
