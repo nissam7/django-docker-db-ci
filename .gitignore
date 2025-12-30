@@ -15,3 +15,20 @@ env
 .env
 node_modules
 yarn.lock
+
+# Python virtual environment
+venv/
+
+# Jenkins binary
+jenkins.war
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local database
+db.sqlite3
+
+# Environment variables
+.env
+
