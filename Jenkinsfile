@@ -1,38 +1,41 @@
 pipeline {
-    agent any
+    agent none
+
+    triggers {
+        githubPush()
+    }
 
     stages {
 
-        stage('Checkout') {
+        stage('Checkout Source') {
+            agent any
             steps {
                 git branch: 'main',
                     url: 'https://github.com/nissam7/django-docker-db-ci.git'
             }
         }
 
-        stage('Build Docker Images') {
-            steps {
-                sh 'docker-compose build'
-            }
-        }
+        stage('Deploy on Remote Node') {
+            agent { label 'remote' }
 
-        stage('Force Clean Old Containers') {
             steps {
                 sh '''
+                if [ ! -d "$HOME/python_docker" ]; then
+                    git clone https://github.com/nissam7/django-docker-db-ci.git $HOME/python_docker
+                fi
+
+                cd $HOME/python_docker
+                git pull
+
                 docker-compose down --remove-orphans || true
-                docker rm -f django-db || true
-                docker rm -f django-web || true
+                docker-compose build
+                docker-compose up -d
                 '''
             }
         }
 
-        stage('Run Containers') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
-
         stage('Verify Containers') {
+            agent { label 'remote' }
             steps {
                 sh 'docker ps'
             }
@@ -41,11 +44,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Deployment completed successfully"
+            echo "✅ Deployment completed successfully on remote server"
         }
         failure {
-            echo "❌ Deployment failed"
+            echo "❌ Deployment failed on remote server"
         }
     }
 }
-
