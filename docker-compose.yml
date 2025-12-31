@@ -7,15 +7,16 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
 
     environment:
-      - DB_NAME=django_db
-      - DB_USER=dbuser
-      - DB_PASSWORD=strongpassword123
-      - DB_HOST=django-db.cv6m8aiiqflt.eu-north-1.rds.amazonaws.com
-      - DB_PORT=5432
-      - ALLOWED_HOSTS=13.53.245.182,localhost,127.0.0.1
-
-    volumes:
-      - .:/app
+      DB_NAME: django_db
+      DB_USER: dbuser
+      DB_PASSWORD: strongpassword123
+      DB_HOST: django-db.cv6m8aiiqflt.eu-north-1.rds.amazonaws.com
+      DB_PORT: "5432"
+      ALLOWED_HOSTS: "13.53.245.182,localhost,127.0.0.1"
+      DEBUG: "False"
 
     ports:
       - "8000:8000"
+
+    volumes:
+      - .:/app
