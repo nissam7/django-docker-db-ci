@@ -111,11 +111,16 @@ if DB_ENGINE and DB_NAME and DB_USERNAME:
     }
 else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'db.sqlite3',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django_db',              # <-- DB name you gave during creation
+        'USER': 'dbuser',                 # <-- Master username (RDS)
+        'PASSWORD': 'strongpassword123',  # <-- Replace with actual password
+        'HOST': 'django-db.cv6m8aiiqflt.eu-north-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
