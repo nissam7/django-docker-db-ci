@@ -4,6 +4,8 @@ services:
   web:
     build: .
     container_name: django-web
+
+    # 🔥 THIS IS THE IMPORTANT LINE
     command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
 
     environment:
@@ -18,8 +20,4 @@ services:
     ports:
       - "8000:8000"
 
-    volumes:
-      - .:/app
-
     restart: always
-
