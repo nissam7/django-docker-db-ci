@@ -22,14 +22,19 @@ if not SECRET_KEY:
         random.choice(string.ascii_lowercase) for _ in range(32)
     )
 
-# 🔴 FORCE DEBUG TRUE (TEMPORARY – IMPORTANT)
-DEBUG = True
+# 🔐 PRODUCTION MODE
+DEBUG = False
 
 # =========================
-# HOSTS (FINAL SAFE SETUP)
+# HOSTS (PRODUCTION SAFE)
 # =========================
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "16.16.212.60",   # EC2 IP (temporary)
+    # later add: "<ALB-DNS-NAME>"
+]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://16.16.212.60",
@@ -93,7 +98,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "core.wsgi.application"
 
 # =========================
-# DATABASE (AWS RDS – WORKING)
+# DATABASE (AWS RDS POSTGRESQL)
 # =========================
 
 DATABASES = {
@@ -132,7 +137,7 @@ USE_I18N = True
 USE_TZ = True
 
 # =========================
-# STATIC FILES
+# STATIC FILES (WHITENOISE)
 # =========================
 
 STATIC_URL = "/static/"
@@ -151,4 +156,3 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
