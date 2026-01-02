@@ -25,12 +25,12 @@ if not SECRET_KEY:
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # =========================
-# HOSTS
+# HOSTS (IMPORTANT FIX)
 # =========================
 
 ALLOWED_HOSTS = os.environ.get(
     "ALLOWED_HOSTS",
-    "16.16.212.60,localhost,127.0.0.1"
+    "*"
 ).split(",")
 
 CSRF_TRUSTED_ORIGINS = [
@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # IMPORTANT
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -97,20 +97,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 # =========================
-# DATABASE (AWS RDS)
+# DATABASE (AWS RDS – FIXED)
 # =========================
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_NAME', 'django_db'),
-        'USER': os.environ.get('DB_USER', 'dbuser'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'strongpassword123'),
+        'USER': os.environ.get('DB_USER', 'django_user'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'StrongPassword123'),
         'HOST': os.environ.get(
             'DB_HOST',
-            'django-db.cv6m8aiiqflt.eu-north-1.rds.amazonaws.com'
+            'django-postgres-db.cv6m8aiiqflt.eu-north-1.rds.amazonaws.com'
         ),
         'PORT': os.environ.get('DB_PORT', '5432'),
+        'CONN_MAX_AGE': 60,
     }
 }
 
@@ -135,7 +136,7 @@ USE_I18N = True
 USE_TZ = True
 
 # =========================
-# STATIC FILES (FIX FOR YOUR ISSUE)
+# STATIC FILES (CORRECT)
 # =========================
 
 STATIC_URL = '/static/'
