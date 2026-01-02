@@ -12,7 +12,7 @@ services:
       DB_PASSWORD: strongpassword123
       DB_HOST: django-db.cv6m8aiiqflt.eu-north-1.rds.amazonaws.com
       DB_PORT: "5432"
-      ALLOWED_HOSTS: "13.53.245.182,localhost,127.0.0.1"
+      ALLOWED_HOSTS: "16.16.212.60,localhost,127.0.0.1"
       DEBUG: "False"
 
     ports:
