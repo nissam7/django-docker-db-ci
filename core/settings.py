@@ -30,12 +30,12 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get(
     "ALLOWED_HOSTS",
-    "13.53.245.182,localhost,127.0.0.1"
+    "16.16.212.60,localhost,127.0.0.1"
 ).split(",")
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://13.53.245.182",
-    "http://13.53.245.182:8000",
+    "http://16.16.212.60",
+    "http://16.16.212.60:8000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
